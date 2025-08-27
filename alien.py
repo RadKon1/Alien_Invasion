@@ -21,10 +21,15 @@ class Alien(Sprite):
         #Przechowywanie dokładnego poziomego położenia obcego
         self.x = float(self.rect.x)
         
+    def check_edges(self):
+        """Zwraca wartość True, jeśli obcy znajduje się przy krawędzi ekranu."""
+        screen_rect= self.screen.get_rect()
+        return (self.rect.right >= screen_rect.right) or (self.rect.left <= 0)
+    
     def update(self):
-        """Przesunięcie obbcego w prawo."""
+        """Przesunięcie obbcego w lewo lub prawo"""
         #Uaktualnienie położenia obcego.
-        self.x += self.settings.alien_speed
+        self.x += self.settings.alien_speed * self.settings.fleet_direction
         #Uaktualnienie położenia prostokąta statku.
         self.rect.x = self.x
         
