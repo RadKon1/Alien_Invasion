@@ -8,6 +8,7 @@ class Alien(Sprite):
         """Inicjalizacja obcego i zdefiniowanie jego położenia początkowego."""
         super().__init__()
         self.screen = ai_game.screen
+        self.settings = ai_game.settings
         
         #Wczytanie obrazu obcego i zdefiniowanie jego atrybutu rect.
         self.image = pygame.image.load('images/alien.bmp')
@@ -19,4 +20,11 @@ class Alien(Sprite):
         
         #Przechowywanie dokładnego poziomego położenia obcego
         self.x = float(self.rect.x)
+        
+    def update(self):
+        """Przesunięcie obbcego w prawo."""
+        #Uaktualnienie położenia obcego.
+        self.x += self.settings.alien_speed
+        #Uaktualnienie położenia prostokąta statku.
+        self.rect.x = self.x
         

@@ -31,6 +31,7 @@ class AlienInvasion:
             self._check_events()
             self.ship.update()
             self._update_bullets()
+            self._update_aliens()
             self._update_screen()
             self.clock.tick(60)
     
@@ -122,6 +123,11 @@ class AlienInvasion:
         new_alien.rect.y = y_position
         self.aliens.add(new_alien)
         
+    def _update_aliens(self):
+        """Uaktualnienie położenia wszystkich obcych we flocie."""
+        self.aliens.update()
+        
+    
     def _update_screen(self):
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu"""
         self.screen.fill(self.settings.bg_color)
@@ -131,8 +137,7 @@ class AlienInvasion:
         self.aliens.draw(self.screen)
         
         pygame.display.flip()
-        
-        
+    
 if __name__ == '__main__':
     #Utworzenie egzemplarza gry i jej uruchomienie.
     ai = AlienInvasion()

@@ -18,4 +18,7 @@ class Settings:
         self.bullet_color = (230, 0, 0)
         self.bullets_allowed = 4
         
+        #Ustawienia dotyczące obcych.
+        self.alien_speed = 1.0
+        
         
