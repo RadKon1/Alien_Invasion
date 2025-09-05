@@ -30,6 +30,6 @@ class Alien(Sprite):
         """Przesunięcie obbcego w lewo lub prawo"""
         #Uaktualnienie położenia obcego.
         self.x += self.settings.alien_speed * self.settings.fleet_direction
-        #Uaktualnienie położenia prostokąta statku.
+        #Uaktualnienie położenia prostokąta obcego.
         self.rect.x = self.x
         
