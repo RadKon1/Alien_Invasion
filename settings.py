@@ -10,7 +10,8 @@ class Settings:
         
         #Ustawienia dotyczące statku.
         self.ship_speed = 1.5
-        
+        self.ship_limit = 3
+
         #Ustawienia dotyczące pocisków.
         self.bullet_speed = 2.5
         self.bullet_width = 3
@@ -20,7 +21,8 @@ class Settings:
         
         #Ustawienia dotyczące obcych.
         self.alien_speed = 1.0
-        self.fleet_drop_speed = 10
+        self.fleet_drop_speed = 50
+
         #Wartość fleet_direction wynosząca 1 oznacza prawo, natomiast -1 oznacza lewo.
         self.fleet_direction = 1
         
