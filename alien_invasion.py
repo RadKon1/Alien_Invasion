@@ -159,12 +159,13 @@ class AlienInvasion:
         a następnie uaktualnienie położenia wszystkich obcyh we flocie"""
         self._check_fleet_edges()
         self.aliens.update()
-        self._check_aliens_bottom()
 
         #Wykrywanie kolizji między obcym i statkiem.
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
 
+        #Wyszukiwanie obcych docierających do dolnej krawędzi ekranu.
+        self._check_aliens_bottom()
 
     def _ship_hit(self):
         """Reakcja na uderzenie obcego w statek."""
