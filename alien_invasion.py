@@ -5,6 +5,7 @@ import pygame
 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from button import Button
 from ship import Ship
 from bullet import Bullet 
@@ -25,6 +26,7 @@ class AlienInvasion:
 
         #Utworzenie egzemplarza przechowującego dane statystyczne dotyczące gry.
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
@@ -70,9 +72,11 @@ class AlienInvasion:
         if button_clicked and not self.game_active:
             #Wyzerowanie ustawień dotyczących gry.
             self.settings.initialize_dynamic_settings()
+            self.settings.speedup_scale = 1.1
 
             #Wyzerowanie danych statystycznych gry.
             self.stats.reset_stats()
+            self.sb.prep_score()
             self.game_active = True
 
             #Usunięcie zawartości list bullets i aliens.
@@ -111,10 +115,17 @@ class AlienInvasion:
                 self.fullscreen = not self.fullscreen
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
-        elif event.key == pygame.K_g:
+        #Poziomy trudności: b - beginner, n - normal, e - expert
+        elif event.key == pygame.K_b:
+            #Poziom trudności - beginner.
             if not self.game_active:
+                #Wyzerowanie ustawień dotyczących gry.
+                self.settings.initialize_dynamic_settings()
+                self.settings.speedup_scale = 1.1
+
                 # Wyzerowanie danych statystycznych gry,
                 self.stats.reset_stats()
+                self.sb.prep_score()
                 self.game_active = True
 
                 # Usunięcie zawartości list bullets i aliens.
@@ -127,6 +138,51 @@ class AlienInvasion:
 
                 # Ukrycie kursora myszy.
                 pygame.mouse.set_visible(False)
+        elif event.key == pygame.K_n:
+            #Poziom trudności - normal.
+            if not self.game_active:
+                # Wyzerowanie ustawień dotyczących gry.
+                self.settings.initialize_dynamic_settings()
+                self.settings.speedup_scale = 1.3
+
+                # Wyzerowanie danych statystycznych gry,
+                self.stats.reset_stats()
+                self.sb.prep_score()
+                self.game_active = True
+
+                # Usunięcie zawartości list bullets i aliens.
+                self.bullets.empty()
+                self.aliens.empty()
+
+                # Utworzenie nowej floty i wyśrodkowanie statku.
+                self._create_fleet()
+                self.ship.center_ship()
+
+                # Ukrycie kursora myszy.
+                pygame.mouse.set_visible(False)
+        elif event.key == pygame.K_e:
+            #Poziom trudności - expert.
+            if not self.game_active:
+                # Wyzerowanie ustawień dotyczących gry.
+                self.settings.initialize_dynamic_settings()
+                self.settings.speedup_scale = 1.6
+
+                # Wyzerowanie danych statystycznych gry,
+                self.stats.reset_stats()
+                self.sb.prep_score()
+                self.game_active = True
+
+                # Usunięcie zawartości list bullets i aliens.
+                self.bullets.empty()
+                self.aliens.empty()
+
+                # Utworzenie nowej floty i wyśrodkowanie statku.
+                self._create_fleet()
+                self.ship.center_ship()
+
+                # Ukrycie kursora myszy.
+                pygame.mouse.set_visible(False)
+
         elif event.key == pygame.K_q:
             sys.exit()
             
@@ -161,7 +217,11 @@ class AlienInvasion:
         #Jeżeli tak, usuwamy zarówno pocisk jak i obcego.
         collisions = pygame.sprite.groupcollide(
             self.bullets, self.aliens, True, True)
-        
+
+        if collisions:
+            self.stats.score += self.settings.alien_points * len(collisions)
+            self.sb.prep_score()
+
         if not self.aliens:
             #Pozbycie się istniejących pocisków i utworzenie nowej floty, oraz przyspieszenie gry.
             self.bullets.empty()
@@ -251,10 +311,14 @@ class AlienInvasion:
     def _update_screen(self):
         """Uaktualnienie obrazów na ekranie i przejście do nowego ekranu"""
         self.screen.fill(self.settings.bg_color)
+
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
         self.ship.blitme()
         self.aliens.draw(self.screen)
+
+        #Wyświetlenie informacji o punktacji.
+        self.sb.show_score()
 
         # Wyświetlenie przycisku tylko wtedy, gdy gra jest nieaktywna.
         if not self.game_active:
