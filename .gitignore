@@ -1,0 +1,25 @@
+# Pliki kompilowane
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Środowisko wirtualne
+venv/
+.env/
+.venv/
+
+# Pliki systemowe
+.DS_Store
+Thumbs.db
+
+# Pliki z PyCharm / VSCode
+.idea/
+.vscode/
+
+# Pliki logów
+*.log
+
+# Pliki konfiguracyjne lokalne
+*.ini
+*.cfg
