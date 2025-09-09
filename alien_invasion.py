@@ -219,8 +219,11 @@ class AlienInvasion:
             self.bullets, self.aliens, True, True)
 
         if collisions:
-            self.stats.score += self.settings.alien_points * len(collisions)
+            total_hits = sum(len(hit_list) for hit_list in collisions.values())
+            self.stats.score += self.settings.alien_points * total_hits
             self.sb.prep_score()
+            self.sb.check_high_score()
+            self.stats.save_high_score()
 
         if not self.aliens:
             #Pozbycie się istniejących pocisków i utworzenie nowej floty, oraz przyspieszenie gry.

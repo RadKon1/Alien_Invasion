@@ -13,9 +13,8 @@ venv/
 .DS_Store
 Thumbs.db
 
-# Pliki z PyCharm / VSCode
+# Pliki z PyCharm
 .idea/
-.vscode/
 
 # Pliki logów
 *.log
@@ -23,3 +22,6 @@ Thumbs.db
 # Pliki konfiguracyjne lokalne
 *.ini
 *.cfg
+
+#Plik związany z high score
+high_score.txt
