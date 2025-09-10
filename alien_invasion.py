@@ -1,11 +1,12 @@
 import sys
+import subprocess
 from time import sleep
 
 import pygame
 import os
-import subprocess
 
 from settings import Settings
+from instructions import Instructions
 from game_stats import GameStats
 from scoreboard import Scoreboard
 from button import Button
@@ -38,13 +39,13 @@ class AlienInvasion:
 
         #Uruchomienie gry ,,Inwazja obcych'' w stanie nieaktywnym
         self.game_active = False
-
+        self.game_paused = False
         #Czy instructions.txt jest włączone.
         self.instruction_on = False
 
-        #Utworzenie przycisku Gra.
+        #Utworzenie przycisku Gra, oraz pauza.
         self.play_button = Button(self, "Game")
-
+        self.pause_button = Button(self, "Pause")
     def run_game(self):
         """Rozpoczęcie pętli głównej gry."""
         while True:
@@ -74,7 +75,7 @@ class AlienInvasion:
     def _check_play_button(self,mouse_pos):
         """Rozpoczęcie nowej gry po kliknięciu przycisku Game przez użytkownika."""
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
-        if button_clicked and not self.game_active:
+        if button_clicked and not self.game_active and not self.game_paused:
             #Wyzerowanie ustawień dotyczących gry.
             self.settings.initialize_dynamic_settings()
             self.settings.speedup_scale = 1.1
@@ -121,14 +122,21 @@ class AlienInvasion:
                 self._create_fleet()
                 self.fullscreen = not self.fullscreen
         #Włączanie pliku .txt z instrukcją gry.
-        elif event.key == pygame.K_y:
-            os.startfile('instructions.txt')
+        elif event.key == pygame.K_u:
+            subprocess.Popen([sys.executable, "instructions.py"])
+        elif event.key == pygame.K_ESCAPE:
+            self.game_paused = not self.game_paused
+            self.game_active = not self.game_active
+            if self.game_paused and self.game_active == False:
+                self.pause_button.draw_button()
+                pygame.mouse.set_visible(True)
+
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
         #Poziomy trudności: b - beginner, n - normal, e - expert
         elif event.key == pygame.K_b:
             #Poziom trudności - beginner.
-            if not self.game_active:
+            if not self.game_active and not self.game_paused:
                 #Wyzerowanie ustawień dotyczących gry.
                 self.settings.initialize_dynamic_settings()
                 self.settings.speedup_scale = 1.1
@@ -152,7 +160,7 @@ class AlienInvasion:
                 pygame.mouse.set_visible(False)
         elif event.key == pygame.K_n:
             #Poziom trudności - normal.
-            if not self.game_active:
+            if not self.game_active and not self.game_paused:
                 # Wyzerowanie ustawień dotyczących gry.
                 self.settings.initialize_dynamic_settings()
                 self.settings.speedup_scale = 1.3
@@ -176,7 +184,7 @@ class AlienInvasion:
                 pygame.mouse.set_visible(False)
         elif event.key == pygame.K_e:
             #Poziom trudności - expert.
-            if not self.game_active:
+            if not self.game_active and not self.game_paused:
                 # Wyzerowanie ustawień dotyczących gry.
                 self.settings.initialize_dynamic_settings()
                 self.settings.speedup_scale = 1.6
@@ -345,7 +353,9 @@ class AlienInvasion:
         self.sb.show_score()
 
         # Wyświetlenie przycisku tylko wtedy, gdy gra jest nieaktywna.
-        if not self.game_active:
+        if not self.game_active and self.game_paused:
+            self.pause_button.draw_button()
+        elif not self.game_active:
             self.play_button.draw_button()
 
         pygame.display.flip()
