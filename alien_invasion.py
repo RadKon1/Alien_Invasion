@@ -2,6 +2,8 @@ import sys
 from time import sleep
 
 import pygame
+import os
+import subprocess
 
 from settings import Settings
 from game_stats import GameStats
@@ -36,6 +38,9 @@ class AlienInvasion:
 
         #Uruchomienie gry ,,Inwazja obcych'' w stanie nieaktywnym
         self.game_active = False
+
+        #Czy instructions.txt jest włączone.
+        self.instruction_on = False
 
         #Utworzenie przycisku Gra.
         self.play_button = Button(self, "Game")
@@ -77,6 +82,8 @@ class AlienInvasion:
             #Wyzerowanie danych statystycznych gry.
             self.stats.reset_stats()
             self.sb.prep_score()
+            self.sb.prep_level()
+            self.sb.prep_ships()
             self.game_active = True
 
             #Usunięcie zawartości list bullets i aliens.
@@ -113,6 +120,9 @@ class AlienInvasion:
                 self.ship.center_ship()
                 self._create_fleet()
                 self.fullscreen = not self.fullscreen
+        #Włączanie pliku .txt z instrukcją gry.
+        elif event.key == pygame.K_y:
+            os.startfile('instructions.txt')
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
         #Poziomy trudności: b - beginner, n - normal, e - expert
@@ -126,6 +136,8 @@ class AlienInvasion:
                 # Wyzerowanie danych statystycznych gry,
                 self.stats.reset_stats()
                 self.sb.prep_score()
+                self.sb.prep_level()
+                self.sb.prep_ships()
                 self.game_active = True
 
                 # Usunięcie zawartości list bullets i aliens.
@@ -148,6 +160,8 @@ class AlienInvasion:
                 # Wyzerowanie danych statystycznych gry,
                 self.stats.reset_stats()
                 self.sb.prep_score()
+                self.sb.prep_level()
+                self.sb.prep_ships()
                 self.game_active = True
 
                 # Usunięcie zawartości list bullets i aliens.
@@ -170,6 +184,8 @@ class AlienInvasion:
                 # Wyzerowanie danych statystycznych gry,
                 self.stats.reset_stats()
                 self.sb.prep_score()
+                self.sb.prep_level()
+                self.sb.prep_ships()
                 self.game_active = True
 
                 # Usunięcie zawartości list bullets i aliens.
@@ -292,6 +308,7 @@ class AlienInvasion:
         if self.stats.ships_left > 0:
             #Zmniejszenie wartośći przechowywanej w ships_left
             self.stats.ships_left -= 1
+            self.sb.prep_ships()
 
             #Usunięcie zawartości list bullets i aliens.
             self.bullets.empty()

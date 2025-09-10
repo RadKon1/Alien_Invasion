@@ -1,0 +1,47 @@
+========================================
+         INSTRUKCJA DO GRY
+          ALIEN INVASION
+========================================
+
+Cel gry:
+----------------------------------------
+Twoim zadaniem jest obrona Ziemi przed
+nadciągającą inwazją obcych statków.
+Sterujesz statkiem kosmicznym i musisz
+zestrzeliwać kolejne fale wrogów, zanim
+dotrą do dolnej krawędzi ekranu.
+
+Sterowanie:
+----------------------------------------
+→  "d"  – ruch w prawo
+←  "a"   – ruch w lewo
+Spacja              – strzał
+Q                   – wyjście z gry
+
+Zasady:
+----------------------------------------
+1. Gracz rozpoczyna z określoną liczbą żyć.
+2. Każdy obcy, który dotrze do dołu ekranu lub dotknie twojego statku,
+   odbiera Ci jedno życie.
+3. Trafienie w obcego dodaje punkty.
+4. Po zniszczeniu całej fali, pojawia się
+   kolejna – trudniejsza.
+5. Gra kończy się, gdy stracisz wszystkie życia.
+
+Punkty:
+----------------------------------------
+- Zestrzelony obcy: 50 punktów
+- Kolejne fale zwiększają tempo gry,
+  co pozwala zdobywać punkty szybciej.
+
+Dodatkowe wskazówki:
+----------------------------------------
+- Strzelaj celnie – liczba pocisków jest
+  ograniczona do jednego naraz na ekranie.
+- Staraj się utrzymywać statek na środku,
+  aby szybciej reagować na ruchy wrogów.
+- Każda nowa fala zwiększa prędkość obcych,
+  dlatego refleks jest kluczem do zwycięstwa.
+
+Powodzenia, pilot!
+========================================
