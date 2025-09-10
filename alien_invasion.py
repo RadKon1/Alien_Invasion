@@ -230,7 +230,11 @@ class AlienInvasion:
             self.bullets.empty()
             self.settings.increase_speed()
             self._create_fleet()
-            
+
+            #Inkrementacja numeru poziomu
+            self.stats.level += 1
+            self.sb.prep_level()
+
     def _create_fleet(self):
         """Utworzenie floty obych."""           
         #Utworzenie obcego i dodawanie kolejnych obcych którzy zmieszczą się w rzędzie.

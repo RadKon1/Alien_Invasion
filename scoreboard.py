@@ -14,8 +14,10 @@ class Scoreboard:
         self.font = pygame.font.SysFont(None, 48)
 
         #Przygotowanie początkowych obrazów z punktacją.
+        self.prep_text()
         self.prep_score()
         self.prep_high_score()
+        self.prep_level()
 
     def prep_score(self):
         """Przekształcenie punktacji na wygenerowany obraz."""
@@ -34,15 +36,37 @@ class Scoreboard:
         high_score_str = f"{high_score:,}"
         self.high_score_image = self.font.render(high_score_str, True,self.text_color, self.settings.bg_color)
 
-        #Wyświetlenie najlepszego wyiku w grze na środku ekranu, przy górnej krawędzi.
+        #Wyświetlenie najlepszego wyniku w grze na środku ekranu, przy górnej krawędzi.
         self.high_score_rect = self.high_score_image.get_rect()
         self.high_score_rect.centerx = self.screen_rect.centerx
         self.high_score_rect.top = self.score_rect.top
 
+    def prep_level(self):
+        """Konwersja numeru poziomu na wygenerowany obraz."""
+        level_str = str(self.stats.level)
+        self.level_image = self.font.render(level_str, True, self.text_color, self.settings.bg_color)
+
+        #Wyświetlenie poziomu w grze pod aktualną punktacją
+        self.level_rect = self.level_image.get_rect()
+        self.level_rect.right = self.score_rect.right
+        self.level_rect.top = self.score_rect.bottom + 10
+
+    def prep_text(self):
+        """Wygenerowanie obrazu tekstu 'level'"""
+        text_level = 'level'
+        self.text_level_image = self.font.render(text_level, True, self.text_color, self.settings.bg_color)
+
+        #Wyświetlenie tekstu w grze obok level_str.\
+        self.text_level_rect = self.text_level_image.get_rect()
+        self.text_level_rect.right = self.screen_rect.right - 50
+        self.text_level_rect.top = self.screen_rect.top + 63
+
     def show_score(self):
         """Wyświetlenie punktacji na ekranie."""
+        self.screen.blit(self.text_level_image, self.text_level_rect)
         self.screen.blit(self.score_image, self.score_rect)
         self.screen.blit(self.high_score_image, self.high_score_rect)
+        self.screen.blit(self.level_image, self.level_rect)
 
     def check_high_score(self):
         """Sprawdzenie, czy mamy nowy najlepszy wynik osiągnięty dotąd w grze."""
